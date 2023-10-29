@@ -1,0 +1,30 @@
+<group>D3210</group>
+<monday>
+  <classes>
+    <databases_lecture>
+      <subject>ПРОЕКТИРОВАНИЕ И РЕАЛИЗАЦИЯ БАЗ ДАННЫХ(ЛЕК)</subject>
+        <time>10:00-11:30</time>
+      <address>Биржевая линия, д.14, лит.А</address>
+      <classroom>206</classroom>
+      <prof>Валитова Юлия Олеговна</prof>
+      <class_format>Очно - дистанционный</class_format>
+    </databases_lecture>
+    <databases_practice>
+      <subject>ПРОЕКТИРОВАНИЕ И РЕАЛИЗАЦИЯ БАЗ ДАННЫХ(ЛАБ)</subject>
+        <time>11:40-13:10</time>
+        <time>13:30-15:00</time>
+      <address>Биржевая линия, д.14, лит.А</address>
+      <classroom>206</classroom>
+      <prof>Валитова Юлия Олеговна</prof>
+      <class_format>Очно - дистанционный</class_format>
+    </databases_practice>
+    <life_safety_lecture>
+      <subject>БЕЗОПАСНОСТЬ ЖИЗНЕДЕЯТЕЛЬНОСТИ(ЛЕК)</subject>
+        <time>18:40-20:10</time>
+      <address></address>
+      <classroom></classroom>
+      <prof>Русанов Дмитрий Юрьевич</prof>
+      <class_format>Дистанционный</class_format>
+    </life_safety_lecture>
+  </classes>
+</monday>

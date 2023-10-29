@@ -8,8 +8,8 @@ def extract_domain(email):
     Mail address can contain letters, numbers, dots (.) and underscores (_).
     Server address can contain letters, dots (.) and a top-level domain.
     """
-    pattern = r'([a-zA-Z0-9._]+)@([a-zA-Z]+).([a-zA-Z]{2,})'
-    if re.match(pattern, email):
+    pattern = r'([a-zA-Z0-9._]+)@([a-zA-Z]+)\.([a-zA-Z]{2,})'
+    if re.match(pattern + '\n', email + '\n'):
         return re.sub(r'([a-zA-Z0-9._]+)@', '', email)
     return 'Fail!'
     
