@@ -1,0 +1,37 @@
+group: "P3210"
+
+classes:
+  monday:
+    databases_lecture:
+      subject: "ПРОЕКТИРОВАНИЕ И РЕАЛИЗАЦИЯ БАЗ ДАННЫХ(ЛЕК)"
+      time: 
+        - "10:00-11:30"
+      address: "Биржевая линия, д.14, лит.А"
+      classroom: 206
+      prof: "Валитова Юлия Олеговна"
+      class_format: "Очно - дистанционный"
+      even_week: true
+      odd_week: false
+
+    databases_practice:
+      subject: "ПРОЕКТИРОВАНИЕ И РЕАЛИЗАЦИЯ БАЗ ДАННЫХ(ЛАБ)"
+      time: 
+        - "11:40-13:10"
+        - "13:30-15:00"
+      address: "Биржевая линия, д.14, лит.А"
+      classroom: "206"
+      prof: "Валитова Юлия Олеговна"
+      class_format: "Очно - дистанционный"
+      even_week: true
+      odd_week: false
+    
+    life_safety_lecture:
+      subject: "БЕЗОПАСНОСТЬ ЖИЗНЕДЕЯТЕЛЬНОСТИ(ЛЕК)"
+      time: 
+        - "18:40-20:10"
+      address: ""
+      classroom: ""
+      prof: "Русанов Дмитрий Юрьевич"
+      class_format: "Дистанционный"
+      even_week: true
+      odd_week: true
