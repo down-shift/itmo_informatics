@@ -25,13 +25,13 @@ for i in range(len(sched)):
     line = sched[i].strip()
     if line[0] == '-':
         rest = line[2:]
-        xml_sched.append(make_line(all_tags[-1], rest, level))
+        xml_sched.append(make_line(all_tags[-1], rest.replace('"', ''), level))
     elif ':' in line:
         tag = line[:line.index(':')]
         all_tags.append(tag)
         rest = line[line.index(':') + 1:].strip()
         if rest:
-            xml_sched.append(make_line(tag, rest, level))
+            xml_sched.append(make_line(tag, rest.replace('"', ''), level))
         elif sched[i + 1].lstrip()[0] != '-':
             tag_stack.append([level, tag])
             xml_sched.append(add_indent(f'<{tag}>', level))
