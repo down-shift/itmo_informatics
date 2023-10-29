@@ -2,6 +2,12 @@ import re
 
 
 def extract_domain(s):
+    """
+    Check if an email address is valid. 
+    
+    Mail address can contain letters, numbers, dots (.) and underscores (_).
+    Server address can contain letters, dots (.) and an top-level domain.
+    """
     if not re.search('@', s):
         return 'Fail!'
     address = s[:re.search('@', s).start()]
@@ -13,7 +19,7 @@ def extract_domain(s):
     return domain
     
 
-
+# Examples
 print(extract_domain('0_a_a_b@cc.vdf'))  # cc.vdf
 print(extract_domain('aabcc.vdf'))       # Fail!
 print(extract_domain('u8gu82wgh@.'))     # Fail!
