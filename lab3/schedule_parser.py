@@ -11,10 +11,7 @@ def make_line(tag, contents, ind_level):
     return add_indent(f'<{tag}>{contents}</{tag}>', ind_level)
 
 
-sched = open('lab3/d3210_schedule.yaml').readlines()
 xml_sched = []
-# for s in sched:
-#     print(indent_level(s), s.rstrip())
 tag_stack = []
 all_tags = []
 for i in range(len(sched)):
@@ -43,3 +40,6 @@ for ind, tag in tag_stack[::-1]:
     xml_sched.append(add_indent(f'</{tag}>', ind))
     tag_stack.pop()
 print(*xml_sched, sep='\n')
+
+
+sched = open('lab3/d3210_schedule.yaml').readlines()
