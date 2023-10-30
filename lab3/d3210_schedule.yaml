@@ -7,7 +7,7 @@ monday:
       time: 
         - "10:00-11:30"
       address: "Биржевая линия, д.14, лит.А"
-      classroom: 206
+      classroom: "206"
       prof: "Валитова Юлия Олеговна"
       class_format: "Очно - дистанционный"
 

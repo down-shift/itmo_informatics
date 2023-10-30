@@ -1,3 +1,6 @@
+import re
+
+
 def indent_level(s):
     s = s.replace('\n', '')
     return len(s) - len(s.lstrip())
@@ -19,25 +22,27 @@ def yaml_to_xml(sched):
     tag_stack = []
     all_tags = []
     for i in range(len(sched)):
-        if not sched[i].strip():
+        if re.match(r'^$', sched[i].strip()):
             continue
         level = indent_level(sched[i])
         next_level = indent_level(sched[i + 1]) if i + 1 < len(sched) else -1
         line = sched[i].strip()
-        if line[0] == '-':
+        if re.match(r'^-', line[0]):
             rest = line[2:]
             xml_sched.append(make_line(all_tags[-1], rest.replace('"', ''), level))
-        elif ':' in line:
-            # print(i)
-            tag = line[:line.index(':')]
-            all_tags.append(tag)
-            rest = line[line.index(':') + 1:].strip()
-            if rest:
-                xml_sched.append(make_line(tag, rest.replace('"', ''), level))
-            elif sched[i + 1].lstrip()[0] != '-':
-                print(i)
-                tag_stack.append([level, tag])
-                xml_sched.append(add_indent(f'<{tag}>', level))
+        elif re.match(r'([\w]+):(["()А-Яа-я\w,\. -]+)', line) or re.match(r'([\w]+):$', line):
+            if re.match(r'([\w]+):$', line):
+                tag = re.match(r'([\w]+):$', line).groups()[0]
+                all_tags.append(tag)
+                if not re.match(r' +- ', sched[i + 1]):
+                    print(i)
+                    tag_stack.append([level, tag])
+                    xml_sched.append(add_indent(f'<{tag}>', level))
+            else:
+                tag = re.match(r'([\w]+):(["()А-Яа-я\w,\. -]+)', line).groups()[0]
+                rest = re.match(r'([\w]+):(["()А-Яа-я\w,\. -]+)', line).groups()[1]
+                all_tags.append(tag)
+                xml_sched.append(make_line(tag, re.sub(r'"', '', rest), level))
         if tag_stack:
             if next_level <= tag_stack[-1][0]:
                 xml_sched.append(add_indent(f'</{tag_stack[-1][1]}>', tag_stack[-1][0]))
@@ -50,6 +55,6 @@ def yaml_to_xml(sched):
 
 yaml_sched = open('lab3/d3210_schedule.yaml').readlines()
 xml_sched = yaml_to_xml(yaml_sched)
-with open('lab3/d3210_schedule.xml', 'w') as f:
+with open('lab3/d3210_schedule_regex.xml', 'w') as f:
     f.write(xml_sched)
 print(xml_sched)

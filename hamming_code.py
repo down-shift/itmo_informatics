@@ -14,7 +14,9 @@ def check_code(c):
         else:
             print('found an error in a data bit on position', wrong - ceil(log2(wrong)))
         c[wrong - 1] ^= 1
+    return c, [c[2], c[4], c[5], c[6]]
     
 
 c = list(map(int, list(input())))
-check_code(c)
+fixed, inf_bits = check_code(c)
+print(*inf_bits, sep='')
