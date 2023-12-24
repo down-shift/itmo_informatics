@@ -78,6 +78,8 @@ crs.execute('''INSERT INTO Orders VALUES
                     (NULL, 2, 4, 'Dodo', '2022-01-22'),
                     (NULL, 3, 6, 'Pepperoni', '2021-10-04'),
                     (NULL, 4, 1, 'Hawaiian', '2024-01-01'),
+                    (NULL, 4, 1, 'Hawaiian', '2024-01-01'),
+                    (NULL, 1, 6, 'Pepperoni', '2022-07-12'),
                     (NULL, 5, 4, 'Arriva', '2020-02-02'),
                     (NULL, 1, 6, 'Margherita', '2023-06-10'),
                     (NULL, 2, 1, 'Arriva', '2022-11-21'),
@@ -89,12 +91,60 @@ crs.execute('''SELECT * FROM Orders''')
 print(crs.fetchall())
 
 # JOIN query
-crs.execute('''SELECT o.id, p.id, o.pizza_type, o.date, p.city, p.street FROM Orders o 
+crs.execute('''SELECT o.customer, p.id, o.pizza_type, o.date, p.city, p.street FROM Orders o 
                LEFT JOIN Pizzerias p ON o.pizzeria = p.id''')
-print('\n\n')
+print('\n')
 print(*crs.fetchall(), sep='\n')
 
 # WHERE and GROUP BY query
+crs.execute('''SELECT customer, COUNT(customer) FROM Orders
+               WHERE customer != 3
+               GROUP BY customer
+               ORDER BY COUNT(customer) DESC''')
+print('\n')
+print(*crs.fetchall(), sep='\n')
+
+# WHERE and nested SELECT
+crs.execute('''SELECT * FROM PizzaTypes
+               WHERE price < (SELECT AVG(price) FROM PizzaTypes)
+               ORDER BY rating DESC''')
+print('\n')
+print(*crs.fetchall(), sep='\n')
+
+crs.execute('''SELECT * FROM Orders
+               WHERE pizza_type IN (SELECT fav_pizza FROM Customers)''')
+print('\n')
+print(*crs.fetchall(), sep='\n')
+
+# UNION
+crs.execute('''SELECT pizza_type FROM Orders UNION SELECT type from PizzaTypes
+                ORDER BY pizza_type DESC''')
+print('\n')
+print(*crs.fetchall(), sep='\n')
+
+crs.execute('''SELECT id, fav_pizza FROM Customers UNION ALL 
+               SELECT customer, pizza_type from Orders
+               ORDER BY id ASC''')
+print('\n')
+print(*crs.fetchall(), sep='\n')
+
+# DISTINCT
+crs.execute('''SELECT DISTINCT customer, pizza_type from Orders
+               ORDER BY customer ASC''')
+print('\n')
+print(*crs.fetchall(), sep='\n')
+
+# UPDATE
+crs.execute('''UPDATE Customers SET age = 1024 WHERE age < 14 OR age > 86''')
+crs.execute('SELECT * FROM Customers')
+print('\n')
+print(*crs.fetchall(), sep='\n')
+
+crs.execute('''UPDATE Pizzerias SET max_people = max_people + 5 
+               WHERE max_people < (SELECT AVG(max_people) from Pizzerias)''')
+crs.execute('SELECT * FROM Pizzerias')
+print('\n')
+print(*crs.fetchall(), sep='\n')
 
 # Finish run
 crs.execute('''DROP TABLE PizzaTypes''')
