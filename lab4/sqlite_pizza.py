@@ -146,6 +146,17 @@ crs.execute('SELECT * FROM Pizzerias')
 print('\n')
 print(*crs.fetchall(), sep='\n')
 
+# DELETE
+crs.execute('''DELETE FROM Orders WHERE date > '2023-12-31' ''')
+crs.execute('SELECT * FROM Orders')
+print('\n')
+print(*crs.fetchall(), sep='\n')
+
+crs.execute('''DELETE FROM Orders WHERE pizza_type='Dodo' ''')
+crs.execute('SELECT * FROM Orders')
+print('\n')
+print(*crs.fetchall(), sep='\n')
+
 # Finish run
 crs.execute('''DROP TABLE PizzaTypes''')
 crs.execute('''DROP TABLE Pizzerias''')
