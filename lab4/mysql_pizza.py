@@ -1,8 +1,27 @@
-import sqlite3
+import mysql.connector
 
 
-db = sqlite3.connect('lab4/pizza_db_sqlite.db')
+mysql.connector.connect(user='daniel', password='bobr8642',
+                        host='localhost',
+                        # database='db_name'
+                        )
+
+# mycursor = mydb.cursor()
+
+# mycursor.execute("CREATE DATABASE pizza_db_mysql")
+
+"""
+db = sqlite3.connect('lab4/database.db')
 crs = db.cursor()
+
+try:
+    crs.execute('''DROP TABLE PizzaTypes''')
+    crs.execute('''DROP TABLE Pizzerias''')
+    crs.execute('''DROP TABLE Customers''')
+    crs.execute('''DROP TABLE Orders''')
+    print('cleared the database')
+except:
+    print('tables do not exist')
 
 # PizzaTypes
 crs.execute('''CREATE TABLE PizzaTypes (
@@ -156,3 +175,4 @@ crs.execute('''DROP TABLE Orders''')
 
 db.commit()
 db.close()
+"""
