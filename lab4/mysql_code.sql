@@ -104,10 +104,6 @@ ORDER BY customer ASC;
 UPDATE Customers SET age = 1024 WHERE age < 14 OR age > 86;
 SELECT * FROM Customers;
 
-UPDATE Pizzerias SET max_people = max_people + 5 
-WHERE max_people < (SELECT AVG(max_people) from Pizzerias);
-SELECT * FROM Pizzerias;
-
 UPDATE Pizzerias, (SELECT AVG(max_people) AS a FROM Pizzerias) as MeanPeople 
 SET max_people = max_people + 5 
 WHERE max_people < MeanPeople.a;

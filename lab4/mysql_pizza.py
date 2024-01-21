@@ -1,18 +1,20 @@
 import mysql.connector
 
 
-mysql.connector.connect(user='daniel', password='bobr8642',
-                        host='localhost',
-                        # database='db_name'
-                        )
+conn = mysql.connector.connect(user='root', password='', host='localhost')
 
-# mycursor = mydb.cursor()
+crs = conn.cursor()
 
-# mycursor.execute("CREATE DATABASE pizza_db_mysql")
+try:
+    crs.execute("CREATE DATABASE pizza_db_mysql")
+except:
+    print('database already exists')
 
-"""
-db = sqlite3.connect('lab4/database.db')
-crs = db.cursor()
+conn = mysql.connector.connect(user='root', password='',
+                                host='localhost',
+                                database='pizza_db_mysql')
+
+crs = conn.cursor()
 
 try:
     crs.execute('''DROP TABLE PizzaTypes''')
@@ -25,10 +27,10 @@ except:
 
 # PizzaTypes
 crs.execute('''CREATE TABLE PizzaTypes (
-                    type TEXT PRIMARY KEY,
-                    price INTEGER,
-                    rating REAL,
-                    most_sold_at INTEGER
+                    type VARCHAR(16) PRIMARY KEY,
+                    price INT,
+                    rating FLOAT,
+                    most_sold_at INT
                 )''')
 crs.execute('''INSERT INTO PizzaTypes VALUES 
                     ('Pesto', 519, 4.9, 6),
@@ -42,11 +44,11 @@ print(crs.fetchall())
 
 # Pizzerias
 crs.execute('''CREATE TABLE Pizzerias (
-                    id INTEGER PRIMARY KEY,
-                    city TEXT,
-                    street TEXT,
-                    year_opened INTEGER,
-                    max_people INTEGER
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    city VARCHAR(16),
+                    street VARCHAR(16),
+                    year_opened INT,
+                    max_people INT
                 )''')
 crs.execute('''INSERT INTO Pizzerias VALUES 
                     (NULL, 'SPb', 'Nevsky', 2020, 60),
@@ -60,10 +62,10 @@ print(crs.fetchall())
 
 # Customers
 crs.execute('''CREATE TABLE Customers (
-                    id INTEGER PRIMARY KEY,
-                    age INTEGER,
-                    fav_pizza TEXT,
-                    fav_pizzeria INTEGER
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    age INT,
+                    fav_pizza VARCHAR(16),
+                    fav_pizzeria INT
                 )''')
 crs.execute('''INSERT INTO Customers VALUES 
                     (NULL, 18, 'Pesto', 2),
@@ -77,11 +79,11 @@ print(crs.fetchall())
 
 # Orders
 crs.execute('''CREATE TABLE Orders (
-                    id INTEGER PRIMARY KEY,
-                    customer INTEGER,
-                    pizzeria INTEGER,
-                    pizza_type TEXT,
-                    date TEXT
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    customer INT,
+                    pizzeria INT,
+                    pizza_type VARCHAR(16),
+                    date VARCHAR(16)
                 )''')
 crs.execute('''INSERT INTO Orders VALUES 
                     (NULL, 1, 2, 'Pesto', '2023-05-12'),
@@ -102,22 +104,22 @@ print(crs.fetchall())
 
 # JOIN query
 crs.execute('''SELECT o.customer, p.id, o.pizza_type, o.date, p.city, p.street FROM Orders o 
-               LEFT JOIN Pizzerias p ON o.pizzeria = p.id''')
+                LEFT JOIN Pizzerias p ON o.pizzeria = p.id''')
 print('\n')
 print(*crs.fetchall(), sep='\n')
 
 # WHERE and GROUP BY query
 crs.execute('''SELECT customer, COUNT(customer) FROM Orders
-               WHERE customer != 3
-               GROUP BY customer
-               ORDER BY COUNT(customer) DESC''')
+                WHERE customer != 3
+                GROUP BY customer
+                ORDER BY COUNT(customer) DESC''')
 print('\n')
 print(*crs.fetchall(), sep='\n')
 
 # WHERE and nested SELECT
 crs.execute('''SELECT * FROM PizzaTypes
-               WHERE price < (SELECT AVG(price) FROM PizzaTypes)
-               ORDER BY rating DESC''')
+                WHERE price < (SELECT AVG(price) FROM PizzaTypes)
+                ORDER BY rating DESC''')
 print('\n')
 print(*crs.fetchall(), sep='\n')
 
@@ -150,8 +152,9 @@ crs.execute('SELECT * FROM Customers')
 print('\n')
 print(*crs.fetchall(), sep='\n')
 
-crs.execute('''UPDATE Pizzerias SET max_people = max_people + 5 
-               WHERE max_people < (SELECT AVG(max_people) from Pizzerias)''')
+crs.execute('''UPDATE Pizzerias, (SELECT AVG(max_people) AS a FROM Pizzerias) as MeanPeople 
+                SET max_people = max_people + 5 
+                WHERE max_people < MeanPeople.a''')
 crs.execute('SELECT * FROM Pizzerias')
 print('\n')
 print(*crs.fetchall(), sep='\n')
@@ -173,6 +176,5 @@ crs.execute('''DROP TABLE Pizzerias''')
 crs.execute('''DROP TABLE Customers''')
 crs.execute('''DROP TABLE Orders''')
 
-db.commit()
-db.close()
-"""
+conn.commit()
+conn.close()
